@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "catcode-service-gitopsreconciliation"
+version = "0.1.0"
+description = ""
+authors = ["Matias Wallenius <MatiWall@live.dk>"]
+readme = "README.md"
+packages = [{include = "catcode"}]
+
+
+
+
+[[tool.poetry.source]]
+name = "PyPI"
+priority = "supplemental"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+extensions-configuration = "^0.2.0"
+extensions-opentelemetry = "^0.2.0"
+git-python = "^1.0.3"
+opentelemetry-api = "^1.27.0"
+pyyaml = "^6.0.2"
+opentelemetry-sdk = "^1.27.0"
+opentelemetry-exporter-otlp = "^1.27.0"
+pydantic = "^2.9.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

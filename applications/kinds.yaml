@@ -1,0 +1,9 @@
+apiVersion: gitreconsiliator.catcode.io
+kind: GitReconciliation
+metadata:
+  name: kinds-git-reconciliation
+spec:
+  source:
+    urlPath: https://github.com/MatiWall/CatCode.Catalog.Models.git
+    subPath: kinds
+    targetRevision: HEAD

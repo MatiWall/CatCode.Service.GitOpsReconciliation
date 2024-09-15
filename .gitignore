@@ -1,0 +1,13 @@
+.idea/
+
+.venv/
+
+__pycache__/
+
+docs/
+
+secrets.yaml
+
+tmp/
+
+clones/
