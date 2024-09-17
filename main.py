@@ -1,4 +1,5 @@
 import logging
+from multiprocessing.managers import Value
 
 from reconsiliator.application.model import Application
 
@@ -20,7 +21,7 @@ from settings import BASE_DIR
 # Clone the repository
 def clone_repo(repo_url, clone_dir: Path):
     if not not clone_dir.exists():
-        os.makedirs(clone_dir)
+        clone_dir.mkdir(parents=True, exist_ok=True)
     git.Repo.clone_from(repo_url, clone_dir)
 
 def update_repo(clone_dir):
@@ -38,45 +39,13 @@ def read_files(directory):
             objects.append(obj)
     return objects
 
-def get_existing_resource(key):
-    command = ['etcdctl', 'get', key]
-    try:
-        result = subprocess.run(command, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-        return result.stdout
-    except subprocess.CalledProcessError as e:
-        print(f"Error: {e.stderr}")
-        raise ValueError(f'Failed to retrieve resource for key')
 
 def insert_files_to_etcd(files):
 
-    for file in files:
-        apigroup = file['apiVersion'].split('/')[0]
-        resource_group = file['spec']['group']
-        singular = file['spec']['names']['singular']
+    for file in files: # all logic is left for the CoreAI
+        resp = requests.post(config.core_api, json=file)
+        logger.info(str(resp.json()))
 
-        key = f'resource/registry/{apigroup}/resourcedefinition/{resource_group}/{singular}'
-        path = f'{config.core_api}/{key}'
-
-        resp = requests.get(path)
-        if resp.status_code == 200:
-            response = resp.json()
-            resource_exists = response.get('exists')
-            if resource_exists:
-                current_state = resp.json()['value']
-                current_state = json.loads(current_state)
-
-                if file == current_state:
-                    logger.debug(f'State of object {key} did not change, continuing.')
-                    continue
-
-            logger.info(f'Resource changed: {key}')
-            resp = requests.post(path, json=file)
-            if resp.status_code == 200:
-                logger.info(f'Successfully updated resource at {key}')
-            else:
-                logger.error(f'Failed to update resource at {key}')
-        else:
-            logger.error(f'Failed to read current state of resource {key}')
 
 
 # Main function
