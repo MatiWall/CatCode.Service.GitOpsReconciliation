@@ -1,9 +1,0 @@
-apiVersion: gitreconsiliator.catcode.io
-kind: GitReconciliation
-metadata:
-  name: base-schema-git-reconciliation
-spec:
-  source:
-    urlPath: https://github.com/MatiWall/CatCode.Catalog.Models.git
-    subPath: base
-    targetRevision: HEAD

@@ -1,3 +1,6 @@
+import logging
+logger = logging.getLogger(__name__)
+
 from dataclasses import dataclass
 from pathlib import Path
 from extensions.configuration import read_configs_to_dataclass, hosting_environment
@@ -17,3 +20,5 @@ configure_opentelemetry(
    enable_otel=hosting_environment.is_production(),
    level=config.logging_level
 )
+
+logger.info(f'Starting GitOpsReconciliator with config {config}')

@@ -6,8 +6,10 @@ authors = ["Matias Wallenius <MatiWall@live.dk>"]
 readme = "README.md"
 packages = [{include = "catcode"}]
 
-
-
+[[tool.poetry.source]]
+name = "private"
+url = "http://pypi.mw.local"
+priority = "primary"
 
 [[tool.poetry.source]]
 name = "PyPI"

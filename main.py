@@ -43,12 +43,12 @@ def read_files(directory):
 def insert_files_to_etcd(files):
 
     for file in files: # all logic is left for the CoreAI
-        resp = requests.post(config.core_api, json=file)
+        resp = requests.post(config.core_api + '/resource/v1', json=file)
         logger.info(str(resp.json()))
 
 
 
-# Main function
+# Main functiond
 def main(apps: list[Application]):
 
 
